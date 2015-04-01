@@ -1,8 +1,31 @@
+<?php require('includes/config.php'); 
+
+//if logged in redirect to members page
+if( $user->is_logged_in() ){ header('Location: bidding_mgt.php'); } 
+
+//process login form if submitted
+if(isset($_POST['submit'])){
+
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  
+  if($user->login($username,$password)){ 
+
+    header('Location: bidding_mgt.php');
+    exit;
+  
+  } else {
+    $error[] = 'Wrong username or password or your account has not been activated.';
+  }
+
+}//end if submit
+?>
+
 <!doctype html>
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>biddingSystem</title>
+    <title>Bidding System</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="/favicon.ico">
@@ -22,41 +45,84 @@
     <![endif]-->
 
 
-    <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-        <h3 class="text-muted">biddingSystem</h3>
-      </div>
-
-      <div class="jumbotron">
-        <h1>'Allo, 'Allo!</h1>
-        <p class="lead">Always a pleasure scaffolding your apps.</p>
-        <p><a class="btn btn-lg btn-success" href="#">Splendid! <span class="glyphicon glyphicon-ok"></span></a></p>
-      </div>
-
-      <div class="row marketing">
-        <div class="col-lg-6">
-          <h4>HTML5 Boilerplate</h4>
-          <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p>
-
-
-
-          <h4>Bootstrap</h4>
-          <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p>
-
-
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">NUS Centralised Online Registration System</a>
         </div>
       </div>
-
-      <div class="footer">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-      </div>
-
+    </nav>
+  
+    <div class="container">
+    
+        <div class="row">
+    
+            <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+                <form role="form" method="post" action="" autocomplete="off">
+                    <h2>Please Login</h2>
+                    
+                    <hr>
+    
+                    <?php
+                    //check for any errors
+                    if(isset($error)){
+                        foreach($error as $error){
+                            echo '<p class="bg-danger">'.$error.'</p>';
+                        }
+                    }
+    
+                    if(isset($_GET['action'])){
+    
+                        //check the action
+                        switch ($_GET['action']) {
+                            case 'active':
+                                echo "<h2 class='bg-success'>Your account is now active you may now log in.</h2>";
+                                break;
+                            case 'reset':
+                                echo "<h2 class='bg-success'>Please check your inbox for a reset link.</h2>";
+                                break;
+                            case 'resetAccount':
+                                echo "<h2 class='bg-success'>Password changed, you may now login.</h2>";
+                                break;
+                        }
+    
+                    }
+    
+                    
+                    ?>
+    
+                    <div class="form-group">
+                        <input type="text" name="username" id="username" class="form-control input-lg" placeholder="User Name" value="<?php if(isset($error)){ echo $_POST['username']; } ?>" tabindex="1">
+                    </div>
+    
+                    <div class="form-group">
+                        <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="3">
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-xs-9 col-sm-9 col-md-9">
+                             <a href='reset.php'>Forgot your Password?</a>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-6 col-md-6"><input type="submit" name="submit" value="Login" class="btn btn-primary btn-block btn-lg" tabindex="5"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+    
+    
     </div>
+
 
 
     <!-- build:js(.) scripts/vendor.js -->

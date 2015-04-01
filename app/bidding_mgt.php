@@ -1,3 +1,9 @@
+<?php require('includes/config.php'); 
+
+//if not logged in redirect to login page
+if(!$user->is_logged_in()){ header('Location: index.php'); } 
+?>
+
 <html lang="en"><script type="text/javascript">window["_gaUserPrefs"] = { ioo : function() { return true; } }</script><head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -39,14 +45,9 @@
           <a class="navbar-brand" href="#">NUS Centralised Online Registration System</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-        <!--
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Help</a></li>
-          </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
-          -->
+        <ul class="nav navbar-nav navbar-right">
+            <a href='logout.php'><button type="button" class="btn btn-default navbar-btn" id="signOutButton">Sign Out</button></a>
+        </ul>
         </div>
       </div>
     </nav>
