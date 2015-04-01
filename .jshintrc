@@ -1,15 +1,25 @@
 {
-    "bitwise": true,
-    "curly": true,
-    "eqeqeq": true,
-    "eqnull": true,
-    "expr": true,
-    "latedef": "nofunc",
-    "noarg": true,
     "node": true,
     "browser": true,
-    "jquery": true,
-    "trailing": true,
+    "esnext": true,
+    "bitwise": true,
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq": true,
+    "immed": true,
+    "indent": 4,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "quotmark": "single",
+    "regexp": true,
     "undef": true,
-    "unused": true
+    "unused": true,
+    "strict": true,
+    "trailing": true,
+    "smarttabs": true,
+	"predef": [
+		"define",
+		"require"
+	]
 }

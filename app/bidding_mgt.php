@@ -9,13 +9,13 @@
 
     <title>Bidding Management</title>
 
-    <!-- build:css(.) styles/vendor.css -->
+    <!-- build:css(.) _/css/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="_/bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css(.tmp) styles/bidding_mgt.css -->
-    <link rel="stylesheet" href="_/css/bidding_mgt.css">
+    <!-- build:css(.) _/css/bidding_mgt.css -->
+    <link rel="stylesheet" href="styles/bidding_mgt.css">
     <!-- endbuild -->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

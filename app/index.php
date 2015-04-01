@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="/favicon.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
+    <!-- build:css(.) _/css/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="_/bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="_/css/main.css">
+    <!-- build:css(.) _/css/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
   <body>
