@@ -9,7 +9,7 @@ The server backend was PHP server.
 ##Setup local server:
 - Install easyPHP: http://www.easyphp.org/easyphp-devserver.php
 - Run easyPHP
-- Access control panel of easyPHP via 128.0.0.1:8080/home/index.php
+- Access control panel of easyPHP via 127.0.0.1:8080/home/index.php
 - Create allias lead to the "app" folder in the repo
 - Access the localhost/"name of the allias you make above"
 - Use myPhpAdmin in the admin panel to control and observe the mySql database

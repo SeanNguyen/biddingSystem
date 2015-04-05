@@ -1,0 +1,10 @@
+insert into faculty values ('Engineering');
+insert into faculty values ('Arts and Social Sciences');
+insert into faculty values ('Business');
+insert into faculty values ('Computing');
+insert into faculty values ('Dentistry');
+insert into faculty values ('Design and Environment');
+insert into faculty values ('Law');
+insert into faculty values ('Medicine');
+insert into faculty values ('Music');
+insert into faculty values ('Science');
