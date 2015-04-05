@@ -13,7 +13,7 @@ class User extends Password{
 	private function get_user_password($username){	
 
 		try {
-			$stmt = $this->_db->prepare('SELECT password FROM student WHERE matric_num = :username');
+			$stmt = $this->_db->prepare('SELECT password FROM student WHERE matric = :username');
 			$stmt->execute(array('username' => $username));
 			
 			$row = $stmt->fetch();

@@ -101,7 +101,7 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
               </thead>
               <tbody>
                 <tr>
-                  <td>CS2102 DATABASE SYSTEMS</td>
+                  <td>CS2102 DATABASE </td>
                   <td>46</td>
                   <td>1000 / 3</td>
                   <td>31</td>
