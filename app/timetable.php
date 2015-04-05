@@ -57,104 +57,133 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li><a href="#">Home</a></li>
-            <li><a href="#">Modules Selection</a></li>
-            <li class="active"><a href="#">Bidding Management <span class="sr-only">(current)</span></a></li>
-            <li><a href="timetable.php">Current Timetable</a></li>
+            <li><a href="#">Module Management</a></li>
+            <li><a href=" bidding_mgt.php">Bidding Management <span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="timetable.php">Current Timetable <span class="sr-only">(current)</span></a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Bidding Management</h1>
-
+          <h1 class="page-header">Timetable</h1>
           <div class="table-responsive">
-            <table class="table">
-              <tr>
-                <td>
-                  <div id="cur_round"><b>Current Round: </b>1A </div>
-                  <div id="end_time"><b>End Time: </b>23 Jun 2015 17:52</div>
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  <div id="p_acc"><b>Programme Account: </b>1850 </div>
-                  <div id="g_acc"><b>General Account: </b>443</div>
-                </td>
-              </tr>
-            </table>
-          </div>
-
-          <h2 class="sub-header">Modules Available in Current Round: </h2>
-          <h5>Note: Please enter 0 if you want to retract a bid. </h5>
-          <div class="table-responsive">
+            <h3> Secured modules </h5>
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>Module</th>
-                  <th>Vacancy</th>
+                  <th>Name</th>
+                  <th>Code Name</th>
+                  <th>Time Slots</th>
                   <th>Highest / Lowest Bid Point</th>
-                  <th>No. of Bidders</th>
-                  <th>Next Minimum Bid</th>
                   <th>Your Bid</th>
-                  <th>Bid Status</th>
-                  <th>Account Type</th>
-                  <th>Place Bid</th>
+                  <th>No. of Students</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>CS2102 DATABASE SYSTEMS</td>
-                  <td>46</td>
-                  <td>1000 / 3</td>
-                  <td>31</td>
-                  <td>1</td>
                   <td>
-                  <form class="form-inline">
-                      <div class="form-group">
-                        <input type="text" class="form-control">
-                      </div>
-                    </form>
+                     DATABASE SYSTEMS - LEC1
                   </td>
-                  <td>Accepted</td>
-                  <td>Programme Account</td>
-                  <td><button type="submit" class="btn btn-default">Bid</button></td>
+                  <td>
+                    CS2102
+                  </td>
+                  <td>
+                    Wednesday, 14:00 - 16:00
+                  </td>
+                  <td>
+                    1000/3
+                  </td>
+                  <td>
+                    50
+                  </td>
+                  <td>
+                    77
+                  </td>
+                </tr>
+                <tr class="danger">
+                  <td>
+                    OPERATING SYSTEMS - LEC1
+                  </td>
+                  <td>
+                    CS2106 
+                  </td>
+                  <td>
+                    Friday, 14:00 - 16:00
+                  </td>
+                  <td>
+                    1000/3
+                  </td>
+                  <td>
+                    50
+                  </td>
+                  <td>
+                    107
+                  </td>
+                </tr>                
+                <tr class="danger">
+                  <td>
+                    Financial Accounting - LEC2
+                  </td>
+                  <td>
+                    ACC1002
+                  </td>
+                  <td>
+                    Friday, 14:00 - 16:00
+                  </td>
+                  <td>
+                    1000/3
+                  </td>
+                  <td>
+                    3
+                  </td>
+                  <td>
+                    99
+                  </td>
+                </tr>                  
+              </tbody>
+            </table>
+
+            <h3> Secured tutorials </h5>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Code Name</th>
+                  <th>Time Slots</th>
+                  <th>No. of Students</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                     DATABASE SYSTEMS - TUT1
+                  </td>
+                  <td>
+                    CS2102
+                  </td>
+                  <td>
+                    Monday, 14:00 - 16:00
+                  </td>
+                  <td>
+                    15
+                  </td>
                 </tr>
                 <tr>
-                  <td>CS2103 SOFTWARE ENGINEERING</td>
-                  <td>46</td>
-                  <td>1000 / 3</td>
-                  <td>31</td>
-                  <td>1</td>
                   <td>
-                    <form class="form-inline">
-                      <div class="form-group">
-                        <input type="text" class="form-control">
-                      </div>
-                    </form>                    
+                    OPERATING SYSTEMS - TUT4
                   </td>
-                  <td>Accepted</td>
-                  <td>Programme Account</td>
-                  <td><button type="submit" class="btn btn-default">Bid</button></td>
-                </tr>
-                <tr>
-                  <td>GEK1002 INTRODUCTION TO JAPANESE STUDIES</td>
-                  <td>46</td>
-                  <td>1000 / 3</td>
-                  <td>31</td>
-                  <td>1</td>
                   <td>
-                    <form class="form-inline">
-                      <div class="form-group">
-                        <input type="text" class="form-control">
-                      </div>
-                    </form>                      
+                    CS2106 
                   </td>
-                  <td>Accepted</td>
-                  <td>General Account</td>
-                  <td><button type="submit" class="btn btn-default">Bid</button></td>
-                </tr>
+                  <td>
+                    Friday, 14:00 - 16:00
+                  </td>
+                  <td>
+                    22
+                  </td>
+                </tr>                                 
               </tbody>
             </table>
           </div>
+
         </div>
       </div>
     </div>
