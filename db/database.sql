@@ -80,7 +80,17 @@ insert into faculty values ('Science');
 
 insert into bid values ('A0145138L','EG2401',1,15);
 insert into bid values ('A0465789P','EG2401',1,18);
+insert into bid values ('U0135137L','CS2102',1,20);
+insert into bid values ('A0123546Y','PC1432',1,140);
+insert into bid values ('A0123546Y','ME2334',1,24);
+insert into bid values ('A0123546Y','MA1506',1,47);
 insert into bid values ('A0123546Y','CS2102',1,20);
+insert into bid values ('A0123546Y','EG2401',1,90);
+insert into bid values ('A0145138L','PC1432',1,140);
+insert into bid values ('A0145138L','ME2334',1,24);
+insert into bid values ('A0145138L','MA1506',1,47);
+insert into bid values ('A0145138L','CS2102',1,20);
+insert into bid values ('A0145138L','EG2401',1,100);
 
 insert into has_quota values ('Science','EG2401',1,20);
 insert into has_quota values ('Engineering','EG2401',1,200);
