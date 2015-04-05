@@ -3,6 +3,9 @@ In this I tried to explain the easiest way to setup the environment to run a loc
 The frontend was using nodejs packages to maintain.
 The server backend was PHP server.
 
+
+
+
 ##Setup local server:
 - Install easyPHP: http://www.easyphp.org/easyphp-devserver.php
 - Run easyPHP
@@ -10,6 +13,9 @@ The server backend was PHP server.
 - Create allias lead to the "app" folder in the repo
 - Access the localhost/"name of the allias you make above"
 - Use myPhpAdmin in the admin panel to control and observe the mySql database
+
+
+
 
 ##Server configuration:
 - database port: 3306
