@@ -6,7 +6,7 @@ password VARCHAR(50) NOT NULL,
 matric CHAR(9) PRIMARY KEY,
 resetComplete VARCHAR(3),
 resetToken VARCHAR(50),
-faculty VARCHAR(20) REFERENCES faculty(faculty_name)
+faculty VARCHAR(30) REFERENCES faculty(faculty_name)
 );
 
 CREATE TABLE module (
@@ -19,7 +19,7 @@ PRIMARY KEY (module_code, slotID)
 );
 
 CREATE TABLE faculty (
-faculty_name VARCHAR(20) PRIMARY KEY
+faculty_name VARCHAR(30) PRIMARY KEY
 );
 
 CREATE TABLE take (
@@ -38,7 +38,7 @@ FOREIGN KEY (module_code, slotID) REFERENCES module(module_code, slotID)
 );
 
 CREATE TABLE has_quota (
-faculty_name VARCHAR(20) REFERENCES faculty(faculty_name),
+faculty_name VARCHAR(30) REFERENCES faculty(faculty_name),
 module_code VARCHAR(10),
 slotID INT,
 quota INT,
