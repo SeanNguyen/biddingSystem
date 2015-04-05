@@ -57,7 +57,7 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li><a href="#">Home</a></li>
-            <li><a href="#">Module Management</a></li>
+            <li><a href="#">Modules Selection</a></li>
             <li class="active"><a href="#">Bidding Management <span class="sr-only">(current)</span></a></li>
           </ul>
         </div>
@@ -124,6 +124,7 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
                   <td>31</td>
                   <td>1</td>
                   <td>
+                    <form class="form-inline">
                       <div class="form-group">
                         <input type="text" class="form-control">
                       </div>
@@ -140,6 +141,7 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
                   <td>31</td>
                   <td>1</td>
                   <td>
+                    <form class="form-inline">
                       <div class="form-group">
                         <input type="text" class="form-control">
                       </div>
