@@ -1,7 +1,8 @@
-<?php require('includes/config.php'); 
+<?php 
+  require('includes/config.php'); 
 
-//if not logged in redirect to login page
-if(!$user->is_logged_in()){ header('Location: index.php'); } 
+  //if not logged in redirect to login page
+  if(!$user->is_logged_in()){ header('Location: index.php'); } 
 ?>
 
 <html lang="en"><script type="text/javascript">window["_gaUserPrefs"] = { ioo : function() { return true; } }</script><head>
@@ -64,20 +65,17 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">Bidding Management</h1>
-
           <div class="table-responsive">
             <table class="table">
               <tr>
                 <td>
-                  <div id="cur_round"><b>Current Round: </b>1A </div>
-                  <div id="end_time"><b>End Time: </b>23 Jun 2015 17:52</div>
+                  <div id="end_time"><b>End Time of Round: </b>23 Jun 2015 17:52</div>
                 </td>
               </tr>
 
               <tr>
                 <td>
-                  <div id="p_acc"><b>Programme Account: </b>1850 </div>
-                  <div id="g_acc"><b>General Account: </b>443</div>
+                  <div id="p_acc"><b>Account Points: </b>1850 </div>
                 </td>
               </tr>
             </table>
@@ -96,62 +94,86 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
                   <th>Next Minimum Bid</th>
                   <th>Your Bid</th>
                   <th>Bid Status</th>
-                  <th>Account Type</th>
                   <th>Place Bid</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>CS2102 DATABASE </td>
-                  <td>46</td>
-                  <td>1000 / 3</td>
-                  <td>31</td>
-                  <td>1</td>
-                  <td>
-                  <form class="form-inline">
-                      <div class="form-group">
-                        <input type="text" class="form-control">
-                      </div>
-                    </form>
-                  </td>
-                  <td>Accepted</td>
-                  <td>Programme Account</td>
-                  <td><button type="submit" class="btn btn-default">Bid</button></td>
-                </tr>
-                <tr>
-                  <td>CS2103 SOFTWARE ENGINEERING</td>
-                  <td>46</td>
-                  <td>1000 / 3</td>
-                  <td>31</td>
-                  <td>1</td>
-                  <td>
-                    <form class="form-inline">
-                      <div class="form-group">
-                        <input type="text" class="form-control">
-                      </div>
-                    </form>                    
-                  </td>
-                  <td>Accepted</td>
-                  <td>Programme Account</td>
-                  <td><button type="submit" class="btn btn-default">Bid</button></td>
-                </tr>
-                <tr>
-                  <td>GEK1002 INTRODUCTION TO JAPANESE STUDIES</td>
-                  <td>46</td>
-                  <td>1000 / 3</td>
-                  <td>31</td>
-                  <td>1</td>
-                  <td>
-                    <form class="form-inline">
-                      <div class="form-group">
-                        <input type="text" class="form-control">
-                      </div>
-                    </form>                      
-                  </td>
-                  <td>Accepted</td>
-                  <td>General Account</td>
-                  <td><button type="submit" class="btn btn-default">Bid</button></td>
-                </tr>
+                <?php
+                // Create connection
+                $conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+                // Check connection
+                if (!$conn) {
+                    die("Connection failed: " . mysqli_connect_error());
+                }
+
+        
+                //echo "Highest bid point: " . $max["hbp"] . "<br>";
+
+                $result = mysqli_query($conn, "SELECT * FROM bid b WHERE b.matric = 'A0123546Y'");
+
+                if (mysqli_num_rows($result) > 0) {
+                    // output data of each module
+                    while($row = mysqli_fetch_assoc($result)) {
+                      // Module
+                      $curMod = $row["module_code"];
+                      // No. of Bidders
+                      $moduleNumSQL = "SELECT b.matric FROM bid b WHERE b.module_code = '" .$curMod. "'";
+                      $numBidders = mysqli_num_rows(mysqli_query($conn, $moduleNumSQL));
+                      // Highest Bid Point
+                      $maxSQL = "SELECT MAX(b.bidPoint) As hbp FROM bid b WHERE b.module_code = '" .$curMod. "'";
+                      $maxRes = mysqli_query($conn, $maxSQL);
+                      $max = mysqli_fetch_assoc($maxRes);
+
+                      // Lowest Bid Point
+                      $minSQL = "SELECT MIN(b.bidPoint) As lbp FROM bid b WHERE b.module_code = '" .$curMod. "'";
+                      $minRes = mysqli_query($conn, $minSQL);
+                      $min = mysqli_fetch_assoc($minRes);
+
+                      // Vacancies
+                      $quotaSQL = "SELECT q.quota FROM has_quota q WHERE q.module_code = '" .$curMod. "'";
+                      $quotaRes = mysqli_query($conn, $quotaSQL);
+                      $quota = mysqli_fetch_assoc($quotaRes); //todo: take into account faculty
+                      $vacancies = $quota["quota"] - $numBidders;                      
+                      if ($vacancies < 0) {
+                        $vacancies = 0;
+                      }
+
+                      // Next Minimum bid 
+                      // This is the lowest successful bidder + 1, if quota all filled.
+                      $nextMinBid = 1;
+                      if ($vacancies < 0) { 
+                        $bidPtsSQL = "SELECT b.bidPoint FROM bid b WHERE b.module_code = '" .$curMod. "' ORDER BY b.bidPoint DESC";
+                        $bidPtsRes = mysqli_query($conn, $bidPtsSQL);
+
+                        $counter = 0;
+                        while($bidPts = mysqli_fetch_assoc($bidPtsRes)) {
+                          $counter++;
+                          if ($counter == $quota) {
+                            $nextMinBid = $bidPts["bidPoint"] + 1;
+                            break;
+                          }
+                        }
+                      }
+
+                      echo "<tr>";
+                      echo "<td>" . $curMod . "</td>";
+                      echo "<td>" .$vacancies. "</td>";
+                      echo "<td>" . $max["hbp"]. "/" . $min["lbp"]. "</td>";
+                      echo "<td>" .$numBidders. "</td>";
+                      echo "<td>" .$nextMinBid. "</td>";
+                      echo "<td><form class='form-inline'><div class='form-group'>";
+                      echo "<input type='text' class='form-control'>";
+                      echo "</div></form></td>";
+                      echo "<td>Accepted</td>";
+                      echo "<td><button type='submit' class='btn btn-default'>Bid</button></td>";
+                      echo "</tr>";                        
+                }
+                } else {
+                    //echo "0 results";
+                }
+
+                mysqli_close($conn);
+                ?>
               </tbody>
             </table>
           </div>
