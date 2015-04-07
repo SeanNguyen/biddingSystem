@@ -90,16 +90,49 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
                                                   t.slotID = m.slotID AND
                                                   t.matric = 'A0156156L'");
                   if (mysqli_num_rows($result) > 0) {
-                    // output data of each module
+                    // check conflict
+                    $numRes = mysqli_num_rows($result);
+                    $moduleList = array();
+                    $conflictList = array();
                     while($row = mysqli_fetch_assoc($result)) {
+                      $moduleList[] = $row;
+                    }                  
+
+                    foreach ($moduleList as $key1=>$row1){
+                       foreach ($moduleList as $key2=>$row2){
+                          //continue if they are the same row
+                          if ($row1["module_code"] == $row2["module_code"] &&
+                              $row1["slotID"] == $row2["slotID"]){
+                            continue;
+                          }
+                          $startTime1 = DateTime::createFromFormat('H:i:s', $row1["start_time"]);
+                          $endTime1 = DateTime::createFromFormat('H:i:s', $row1["end_time"]);
+                          $startTime2 = DateTime::createFromFormat('H:i:s', $row2["start_time"]);
+                          $endTime2 = DateTime::createFromFormat('H:i:s', $row2["end_time"]);    
+                          
+                          if ($row1["weekday"] == $row2["weekday"] &&
+                              ($startTime1 < $endTime2 && $startTime2 < $endTime1)){
+                            $conflictList[$key1] = true;
+                            $conflictList[$key2] = true;
+                            echo $row1["module_code"];
+                          }
+                       }
+                      
+                    }
+                    // output data of each module
+
+                    foreach ($moduleList as $key1=>$row){
                       //Module code and slot ID
                       $curMod = $row["module_code"];
                       $slotID = $row["slotID"];
-                      
+                      $conflictIndicator = "";
+                      if (array_key_exists($key1, $conflictList)){
+                         $conflictIndicator = "class='danger'";
+                      }
                       $numStuSQL = "SELECT * FROM take t WHERE t.module_code='{$curMod}' AND t.slotID={$slotID}";
                       $numStu = mysqli_num_rows(mysqli_query($conn, $numStuSQL));
                       
-                      echo "<tr>";
+                      echo "<tr {$conflictIndicator}>";
                       echo "<td>{$row["name"]}</td>";
                       echo "<td>{$row["module_code"]}</td>";
                       echo "<td>{$row["weekday"]}, {$row["start_time"]} - {$row["end_time"]}";

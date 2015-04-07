@@ -16,7 +16,8 @@ class AdminUser {
 	}
 
 	public function is_logged_in(){
-		if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true && $_SESSION['userType'] == 'admin'){
+		if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true && 
+		   isset($_SESSION['userType']) && $_SESSION['userType'] == 'admin'){
 			return true;
 		}		
 	}

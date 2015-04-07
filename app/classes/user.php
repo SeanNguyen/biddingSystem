@@ -43,7 +43,8 @@ class User extends Password{
 	}
 
 	public function is_logged_in(){
-		if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true && $_SESSION['userType'] == 'student'){
+		if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true && 
+		   isset($_SESSION['userType']) && $_SESSION['userType'] == 'student'){
 			return true;
 		}		
 	}
