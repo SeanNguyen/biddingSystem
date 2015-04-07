@@ -31,6 +31,7 @@ class User extends Password{
 		if($this->password_verify($password,$correctPassword)){
 		    
 		    $_SESSION['loggedin'] = true;
+		    $_SESSION['userType'] = 'student';
 			$_SESSION['username'] = $username;
 			
 		    return true;
@@ -42,7 +43,7 @@ class User extends Password{
 	}
 
 	public function is_logged_in(){
-		if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true){
+		if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true && $_SESSION['userType'] == 'student'){
 			return true;
 		}		
 	}

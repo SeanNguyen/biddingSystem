@@ -2,7 +2,6 @@
 
 //if logged in redirect to members page
 if( $user->is_logged_in() ){ header('Location: bidding_mgt.php'); } 
-if( $adminUser->is_logged_in() ){ header('Location: adminPage.php'); } 
 
 //process login form if submitted
 if(isset($_POST['submit'])){
@@ -10,13 +9,13 @@ if(isset($_POST['submit'])){
   $username = $_POST['username'];
   $password = $_POST['password'];
   
-  if($user->login($username,$password)){ 
+  if($adminUser->login($username,$password)){ 
 
     header('Location: bidding_mgt.php');
     exit;
   
   } else {
-    $error[] = 'Wrong username or password or your account has not been activated.';
+    $error[] = 'Wrong username or password or your account.';
   }
 
 }//end if submit
@@ -45,7 +44,6 @@ if(isset($_POST['submit'])){
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -60,7 +58,7 @@ if(isset($_POST['submit'])){
 
         <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
-            <a href='adminLogin.php'><button type="button" class="btn btn-default navbar-btn" id="signOutButton">Admin Login</button></a>
+            <a href='logout.php'><button type="button" class="btn btn-default navbar-btn" id="signOutButton">Student Login</button></a>
         </ul>
         </div>
       </div>
@@ -72,7 +70,7 @@ if(isset($_POST['submit'])){
     
             <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
                 <form role="form" method="post" action="" autocomplete="off">
-                    <h2>Student Login</h2>
+                    <h2>Admin Login</h2>
                     
                     <hr>
     
@@ -124,15 +122,8 @@ if(isset($_POST['submit'])){
                     </div>
                 </form>
             </div>
-        </div>
-    
-    
-    
+        </div>    
     </div>
-
-
-
-    <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <!-- endbower -->

@@ -24,5 +24,7 @@ try {
 
 //include the user class, pass in the database connection
 include('classes/user.php');
+include('classes/adminUser.php');
 $user = new User($db); 
+$adminUser = new AdminUser();
 ?>
