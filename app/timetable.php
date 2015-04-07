@@ -57,7 +57,7 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li><a href="#">Home</a></li>
-            <li><a href="#">Module Management</a></li>
+            <li><a href="#">Modules Selection</a></li>
             <li><a href=" bidding_mgt.php">Bidding Management <span class="sr-only">(current)</span></a></li>
             <li class="active"><a href="timetable.php">Current Timetable <span class="sr-only">(current)</span></a></li>
           </ul>
@@ -65,121 +65,49 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">Timetable</h1>
           <div class="table-responsive">
-            <h3> Secured modules </h5>
+            <h3> Secured Modules </h5>
             <table class="table table-striped">
               <thead>
                 <tr>
                   <th>Name</th>
                   <th>Code Name</th>
                   <th>Time Slots</th>
-                  <th>Highest / Lowest Bid Point</th>
-                  <th>Your Bid</th>
                   <th>No. of Students</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                     DATABASE SYSTEMS - LEC1
-                  </td>
-                  <td>
-                    CS2102
-                  </td>
-                  <td>
-                    Wednesday, 14:00 - 16:00
-                  </td>
-                  <td>
-                    1000/3
-                  </td>
-                  <td>
-                    50
-                  </td>
-                  <td>
-                    77
-                  </td>
-                </tr>
-                <tr class="danger">
-                  <td>
-                    OPERATING SYSTEMS - LEC1
-                  </td>
-                  <td>
-                    CS2106 
-                  </td>
-                  <td>
-                    Friday, 14:00 - 16:00
-                  </td>
-                  <td>
-                    1000/3
-                  </td>
-                  <td>
-                    50
-                  </td>
-                  <td>
-                    107
-                  </td>
-                </tr>                
-                <tr class="danger">
-                  <td>
-                    Financial Accounting - LEC2
-                  </td>
-                  <td>
-                    ACC1002
-                  </td>
-                  <td>
-                    Friday, 14:00 - 16:00
-                  </td>
-                  <td>
-                    1000/3
-                  </td>
-                  <td>
-                    3
-                  </td>
-                  <td>
-                    99
-                  </td>
-                </tr>                  
-              </tbody>
-            </table>
+                <?php
+                  // Create connection
+                  $conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+                  // Check connection
+                  if (!$conn) {
+                      die("Connection failed: " . mysqli_connect_error());
+                  }
 
-            <h3> Secured tutorials </h5>
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Code Name</th>
-                  <th>Time Slots</th>
-                  <th>No. of Students</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                     DATABASE SYSTEMS - TUT1
-                  </td>
-                  <td>
-                    CS2102
-                  </td>
-                  <td>
-                    Monday, 14:00 - 16:00
-                  </td>
-                  <td>
-                    15
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    OPERATING SYSTEMS - TUT4
-                  </td>
-                  <td>
-                    CS2106 
-                  </td>
-                  <td>
-                    Friday, 14:00 - 16:00
-                  </td>
-                  <td>
-                    22
-                  </td>
-                </tr>                                 
+                  //$result = mysqli_query($conn, "SELECT * FROM take t WHERE t.matric = '{$_SESSION['username']}'");
+                  $result = mysqli_query($conn, "SELECT m.* FROM take t, module m WHERE 
+                                                  t.module_code = m.module_code AND
+                                                  t.slotID = m.slotID AND
+                                                  t.matric = 'A0156156L'");
+                  if (mysqli_num_rows($result) > 0) {
+                    // output data of each module
+                    while($row = mysqli_fetch_assoc($result)) {
+                      //Module code and slot ID
+                      $curMod = $row["module_code"];
+                      $slotID = $row["slotID"];
+                      
+                      $numStuSQL = "SELECT * FROM take t WHERE t.module_code='{$curMod}' AND t.slotID={$slotID}";
+                      $numStu = mysqli_num_rows(mysqli_query($conn, $numStuSQL));
+                      
+                      echo "<tr>";
+                      echo "<td>{$row["name"]}</td>";
+                      echo "<td>{$row["module_code"]}</td>";
+                      echo "<td>{$row["weekday"]}, {$row["start_time"]} - {$row["end_time"]}";
+                      echo "<td>{$numStu}</td>";
+                      echo "</tr>";
+                    }
+                  }
+                ?>          
               </tbody>
             </table>
           </div>

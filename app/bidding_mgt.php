@@ -108,7 +108,8 @@
 
         
                 //echo "Highest bid point: " . $max["hbp"] . "<br>";
-
+                
+                //$result = mysqli_query($conn, "SELECT * FROM bid b WHERE b.matric = '{$_SESSION['username']}'");
                 $result = mysqli_query($conn, "SELECT * FROM bid b WHERE b.matric = 'A0123546Y'");
 
                 if (mysqli_num_rows($result) > 0) {
@@ -116,6 +117,7 @@
                     while($row = mysqli_fetch_assoc($result)) {
                       // Module
                       $curMod = $row["module_code"];
+
                       // No. of Bidders
                       $moduleNumSQL = "SELECT b.matric FROM bid b WHERE b.module_code = '" .$curMod. "'";
                       $numBidders = mysqli_num_rows(mysqli_query($conn, $moduleNumSQL));
@@ -162,7 +164,7 @@
                       echo "<td>" .$numBidders. "</td>";
                       echo "<td>" .$nextMinBid. "</td>";
                       echo "<td><form class='form-inline'><div class='form-group'>";
-                      echo "<input type='text' class='form-control'>";
+                      echo "<input type='text' class='form-control' value='" .$row["bidPoint"]. "'>";
                       echo "</div></form></td>";
                       echo "<td>Accepted</td>";
                       echo "<td><button type='submit' class='btn btn-default'>Bid</button></td>";

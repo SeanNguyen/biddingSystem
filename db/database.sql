@@ -15,6 +15,7 @@ end_time TIME,
 weekday VARCHAR(10),
 module_code VARCHAR(10),
 slotID INT,
+name VARCHAR(64),
 PRIMARY KEY (module_code, slotID)
 );
 
@@ -47,10 +48,10 @@ FOREIGN KEY (module_code, slotID) REFERENCES module(module_code, slotID)
 
 
 
-insert into module values ('10:00:00','12:00:00','Monday','EG2401',1);
-insert into module values ('12:00:00','14:00:00','Thursday','EG2401',2);
-insert into module values ('8:00:00','10:00:00','Tuesday','CS2102',1);
-insert into module values ('12:00:00','14:00:00','Thursday','CS2105',1);
+insert into module values ('10:00:00','12:00:00','Monday','EG2401',1, 'Engineering Professionalism');
+insert into module values ('12:00:00','14:00:00','Thursday','EG2401',2, 'Engineering Professionalism');
+insert into module values ('8:00:00','10:00:00','Tuesday','CS2102',1, 'Database Systems');
+insert into module values ('12:00:00','14:00:00','Thursday','CS2105',1, 'Introduction to Computer Network');
 
 
 insert into student values ('XIE XIN', 'xiexin2011@gmail.com', 100, '123465', 'U0135137L', NULL, NULL, 'Engineering');
