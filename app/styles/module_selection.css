@@ -121,7 +121,7 @@ body {
     
 }
 #table-wrapper table * {
-  background:yellow;
+  /*background:yellow;*/
   color:black;
 }
 #table-wrapper table thead th .text {
