@@ -78,33 +78,32 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
           <div id="table-wrapper">
             <div id="table-scroll">
             <table class="table table-striped">
-            <!--<thead>
-            <<tr>
-            <th><span class="text">A</span></th>
-            <th><span class="text">B</span></th>
-            <th><span class="text">C</span></th>
+            <thead>
+            <tr>
+            <th>Module code</th>
+            <th>Moculde Name</th>
             </tr>
-            </thead>-->
+            </thead>
             <tbody>
-            <tr> <td>EG2604</td> <td>Innovation Programme</td> </tr>
-            <tr> <td>CS2103</td> <td>Software Engineering</td> </tr>
-            <tr> <td>MA1506</td> <td>Mathematics I</td> </tr>
-            <tr> <td>CG2271</td> <td>Real-time Operating Systems</td> </tr>
-            <tr> <td>ACC1001X</td> <td>Accounting</td> </tr>
-            <tr> <td>GEK1002</td> <td>Introduction to Japanese Studies</td> </tr>
-            <tr> <td>PC1432</td> <td>Physics IE</td> </tr>
-            <tr> <td>ME2334</td> <td>Fluid Mechanics</td> </tr>
-            <tr> <td>PC1109</td> <td>Understanding Our Universe</td> </tr>
-            <tr> <td>EG2604</td> <td>Innovation Programme</td> </tr>
-            <tr> <td>EG2604</td> <td>Innovation Programme</td> </tr>
-            <tr> <td>EG2604</td> <td>Innovation Programme</td> </tr>
-            <tr> <td>EG2604</td> <td>Innovation Programme</td> </tr>
-            <tr> <td>EG2604</td> <td>Innovation Programme</td> </tr>
-            <tr> <td>EG2604</td> <td>Innovation Programme</td> </tr>
-            <tr> <td>EG2604</td> <td>Innovation Programme</td> </tr>
-            <tr> <td>EG2604</td> <td>Innovation Programme</td> </tr>
-            <tr> <td>EG2604</td> <td>Innovation Programme</td> </tr>                                                                                    
-            <tr> <td>
+            <?php
+                  // Create connection
+                $conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+                // Check connection
+                if (!$conn) {
+                    die("Connection failed: " . mysqli_connect_error());
+                }
+                //$result = mysqli_query($conn, "SELECT * FROM take t WHERE t.matric = '{$_SESSION['username']}'");
+                $result = mysqli_query($conn, "SELECT distinct module_code, name FROM module");
+                if (mysqli_num_rows($result) > 0) {                 
+                    while($row = mysqli_fetch_assoc($result)) {
+                      echo "<tr>";
+                      echo "<td>{$row["module_code"]}</td>";
+                      echo "<td>{$row["name"]}</td>";
+                      echo "</tr>";
+                    }    
+                }              
+            ?>
+
             </tbody>
             </table>
             </div>

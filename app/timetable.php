@@ -57,8 +57,8 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li><a href="#">Home</a></li>
-            <li><a href="#">Modules Selection</a></li>
-            <li><a href=" bidding_mgt.php">Bidding Management <span class="sr-only">(current)</span></a></li>
+            <li><a href="module_selection.php">Modules Selection</a></li>
+            <li><a href="bidding_mgt.php">Bidding Management <span class="sr-only">(current)</span></a></li>
             <li class="active"><a href="timetable.php">Current Timetable <span class="sr-only">(current)</span></a></li>
           </ul>
         </div>
