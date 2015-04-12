@@ -80,7 +80,15 @@
                     <?php
                       //User token
                       $matric = $_SESSION['username'];
-                      echo $matric;
+                      $conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+                      // Check connection
+                      if (!$conn) {
+                          die("Connection failed: " . mysqli_connect_error());
+                      }
+                      $row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT s.name FROM student s WHERE s.matric = '".$matric."'")); 
+                      $studentName = $row["name"];
+                      echo $matric . "    <b>Name:</b> " . $studentName;
+                      mysqli_close($conn);
                     ?>
                   </span>
                 </div>
@@ -113,7 +121,7 @@
                 if (!$conn) {
                     die("Connection failed: " . mysqli_connect_error());
                 }
-                $matric = $_SESSION['username'];                      
+                $matric = $_SESSION['username'];                                    
                 $result = mysqli_query($conn, "SELECT * FROM bid b WHERE b.matric = '".$matric."'");
                 //$result = mysqli_query($conn, "SELECT * FROM bid b WHERE b.matric = 'A0123546Y'");
 
