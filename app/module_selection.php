@@ -74,14 +74,19 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
               </tr>
             </table>
           </div>
+          <h3>Click on the module to add to bid management</h3>
           <div class="table-responsive">
           <div id="table-wrapper">
             <div id="table-scroll">
-            <table class="table table-striped">
+            <table class="table table-striped table-hover">
             <thead>
             <tr>
             <th>Module code</th>
             <th>Moculde Name</th>
+            <th>Vacancy</th>
+            <th>Highest / Lowest Bid Point</th>
+            <th>No. of Bidders</th>
+            <th>Next Minimum Bid</th>            
             </tr>
             </thead>
             <tbody>
@@ -96,9 +101,54 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
                 $result = mysqli_query($conn, "SELECT distinct module_code, name FROM module");
                 if (mysqli_num_rows($result) > 0) {                 
                     while($row = mysqli_fetch_assoc($result)) {
-                      echo "<tr>";
+
+                      $curMod = $row["module_code"];
+
+                      // No. of Bidders
+                      $moduleNumSQL = "SELECT b.matric FROM bid b WHERE b.module_code = '" .$curMod. "'";
+                      $numBidders = mysqli_num_rows(mysqli_query($conn, $moduleNumSQL));
+                      // Highest Bid Point
+                      $maxSQL = "SELECT MAX(b.bidPoint) As hbp FROM bid b WHERE b.module_code = '" .$curMod. "'";
+                      $maxRes = mysqli_query($conn, $maxSQL);
+                      $max = mysqli_fetch_assoc($maxRes);
+
+                      // Lowest Bid Point
+                      $minSQL = "SELECT MIN(b.bidPoint) As lbp FROM bid b WHERE b.module_code = '" .$curMod. "'";
+                      $minRes = mysqli_query($conn, $minSQL);
+                      $min = mysqli_fetch_assoc($minRes);
+
+                      // Vacancies
+                      $quotaSQL = "SELECT q.quota FROM has_quota q WHERE q.module_code = '" .$curMod. "'";
+                      $quotaRes = mysqli_query($conn, $quotaSQL);
+                      $quota = mysqli_fetch_assoc($quotaRes); //todo: take into account faculty
+                      $vacancies = $quota["quota"] - $numBidders;                      
+                      if ($vacancies < 0) {
+                        $vacancies = 0;
+                      }
+
+                      // Next Minimum bid 
+                      // This is the lowest successful bidder + 1, if quota all filled.
+                      $nextMinBid = 1;
+                      if ($vacancies < 0) { 
+                        $bidPtsSQL = "SELECT b.bidPoint FROM bid b WHERE b.module_code = '" .$curMod. "' ORDER BY b.bidPoint DESC";
+                        $bidPtsRes = mysqli_query($conn, $bidPtsSQL);
+
+                        $counter = 0;
+                        while($bidPts = mysqli_fetch_assoc($bidPtsRes)) {
+                          $counter++;
+                          if ($counter == $quota) {
+                            $nextMinBid = $bidPts["bidPoint"] + 1;
+                            break;
+                          }
+                        }
+                      }                      
+                      echo "<tr data-next-min='{$nextMinBid}' data-code='{$row["module_code"]}'>";
                       echo "<td>{$row["module_code"]}</td>";
                       echo "<td>{$row["name"]}</td>";
+                      echo "<td>" .$vacancies. "</td>";
+                      echo "<td>" . $max["hbp"]. "/" . $min["lbp"]. "</td>";
+                      echo "<td>" .$numBidders. "</td>";
+                      echo "<td>" .$nextMinBid. "</td>";                      
                       echo "</tr>";
                     }    
                 }              
@@ -109,7 +159,8 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
             </div>
           </div>
           </div>
-          <button type='submit' class='btn btn-default'>Add selected module</button>          
+
+          <button type='submit' class='btn btn-default' id='add-module-btn'>Add selected module</button>          
         </div>
       </div>
     </div>
@@ -118,5 +169,6 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="scripts/module_selection.js"></script>
 
 <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" preserveAspectRatio="none" style="visibility: hidden; position: absolute; top: -100%; left: -100%;"><defs></defs><text x="0" y="10" style="font-weight:bold;font-size:10pt;font-family:Arial, Helvetica, Open Sans, sans-serif;dominant-baseline:middle">200x200</text></svg></body></html>
