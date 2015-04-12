@@ -4,7 +4,7 @@
   //if not logged in redirect to login page
   if(!$user->is_logged_in()){ header('Location: index.php'); } 
 ?>
-
+<!DOCTYPE html>
 <html lang="en"><script type="text/javascript">window["_gaUserPrefs"] = { ioo : function() { return true; } }</script><head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -71,12 +71,6 @@
               <tr>
                 <td>
                   <div id="end_time"><b>End Time of Round: </b>23 Jun 2015 17:52</div>
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  <div id="p_acc"><b>Account Points: </b>1850 </div>
                 </td>
               </tr>
               <tr>
@@ -173,7 +167,7 @@
                       echo "<td>" .$vacancies. "</td>";
                       echo "<td>" . $max["hbp"]. "/" . $min["lbp"]. "</td>";
                       echo "<td>" .$numBidders. "</td>";
-                      echo "<td>" .$nextMinBid. "</td>";
+                      echo "<td id='next-min'>" .$nextMinBid. "</td>";
                       echo "<td><form class='form-inline'><div class='form-group'>";
                       echo "<input type='text' class='form-control' value='" .$row["bidPoint"]. "'>";
                       echo "</div></form></td>";
@@ -189,30 +183,43 @@
                 mysqli_close($conn);
                 ?>
                 <script type="text/javascript">
-                var newBid, mod, matricNo;
+                var newBid, mod, matricNo, nextMin;
+
                   $(".submit-bid").click(function() {
-                  var row = $(this).closest("tr");    // Find the row
-                  newBid = row.find('.form-control').val(); // Find the text
-                  mod = row.find('.mod-code').text();
-                  matricNo = $('#display-matric').text();
+                    var row = $(this).closest("tr");    // Find the row
+                    newBid = row.find('.form-control').val().trim(); // Find the text
 
-                  $.ajax({
-                      url: "receive_data.php",
-                      type: "POST",
-                      async: true, 
-                      data: { message: newBid,
-                              matric: matricNo,
-                              code: mod }, //your form data to post goes here as a json object
-                      dataType: "html",
+                    console.log("new bid: " + newBid + ".");
 
-                      success: function(data) {
-                          console.log("post success \n" + data);  
-                      },
-                      error: function(XMLHttpRequest, textStatus, errorThrown)  {
-                          console.log("Status: " + textStatus);
-                          //console.log("Error: " + errorThrown); 
-                      }
-                  });                  
+                    mod = row.find('.mod-code').text();
+                    matricNo = $('#display-matric').text();
+                    nextMin = Number($('#next-min').text());
+                    
+                    if (isNaN(newBid)) {
+                      alert("Please enter a number!");
+                    }
+                    else if (newBid >= nextMin || newBid == 0) {
+                      $.ajax({
+                          url: "receive_data.php",
+                          type: "POST",
+                          async: true, 
+                          data: { message: newBid.trim(),
+                                  matric: matricNo.trim(),
+                                  code: mod.trim() }, //your form data to post goes here as a json object
+                          dataType: "html",
+
+                          success: function(data) {
+                              console.log("post success \n" + data);  
+                              location.reload(true);
+                          },
+                          error: function(XMLHttpRequest, textStatus, errorThrown)  {
+                              console.log("Status: " + textStatus);
+                          }
+                      }); 
+                    } 
+                    else {
+                      alert("Minimum bid is " + nextMin + " !");
+                    }                
                 });
                 
 
