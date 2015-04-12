@@ -23,6 +23,7 @@
     <!-- endbuild -->
     <!-- build:css(.) _/css/bidding_mgt.css -->
     <link rel="stylesheet" href="styles/bidding_mgt.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <!-- endbuild -->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -78,6 +79,19 @@
                   <div id="p_acc"><b>Account Points: </b>1850 </div>
                 </td>
               </tr>
+              <tr>
+                <td>
+                <div><b>Matriculation Number: </b>
+                  <span id="display-matric">
+                    <?php
+                      //User token
+                      $matric = $_SESSION['username'];
+                      echo $matric;
+                    ?>
+                  </span>
+                </div>
+              </td>
+              </tr>
             </table>
           </div>
 
@@ -105,12 +119,9 @@
                 if (!$conn) {
                     die("Connection failed: " . mysqli_connect_error());
                 }
-
-        
-                //echo "Highest bid point: " . $max["hbp"] . "<br>";
-                
-                //$result = mysqli_query($conn, "SELECT * FROM bid b WHERE b.matric = '{$_SESSION['username']}'");
-                $result = mysqli_query($conn, "SELECT * FROM bid b WHERE b.matric = 'A0123546Y'");
+                $matric = $_SESSION['username'];                      
+                $result = mysqli_query($conn, "SELECT * FROM bid b WHERE b.matric = '".$matric."'");
+                //$result = mysqli_query($conn, "SELECT * FROM bid b WHERE b.matric = 'A0123546Y'");
 
                 if (mysqli_num_rows($result) > 0) {
                     // output data of each module
@@ -158,7 +169,7 @@
                       }
 
                       echo "<tr>";
-                      echo "<td>" . $curMod . "</td>";
+                      echo "<td class='mod-code'>" . $curMod . "</td>";
                       echo "<td>" .$vacancies. "</td>";
                       echo "<td>" . $max["hbp"]. "/" . $min["lbp"]. "</td>";
                       echo "<td>" .$numBidders. "</td>";
@@ -167,7 +178,8 @@
                       echo "<input type='text' class='form-control' value='" .$row["bidPoint"]. "'>";
                       echo "</div></form></td>";
                       echo "<td>Accepted</td>";
-                      echo "<td><button type='submit' class='btn btn-default'>Bid</button></td>";
+
+                      echo "<td><button type='submit' class='btn btn-default submit-bid'>Bid</button></td>";
                       echo "</tr>";                        
                 }
                 } else {
@@ -176,6 +188,35 @@
 
                 mysqli_close($conn);
                 ?>
+                <script type="text/javascript">
+                var newBid, mod, matricNo;
+                  $(".submit-bid").click(function() {
+                  var row = $(this).closest("tr");    // Find the row
+                  newBid = row.find('.form-control').val(); // Find the text
+                  mod = row.find('.mod-code').text();
+                  matricNo = $('#display-matric').text();
+
+                  $.ajax({
+                      url: "receive_data.php",
+                      type: "POST",
+                      async: true, 
+                      data: { message: newBid,
+                              matric: matricNo,
+                              code: mod }, //your form data to post goes here as a json object
+                      dataType: "html",
+
+                      success: function(data) {
+                          console.log("post success \n" + data);  
+                      },
+                      error: function(XMLHttpRequest, textStatus, errorThrown)  {
+                          console.log("Status: " + textStatus);
+                          //console.log("Error: " + errorThrown); 
+                      }
+                  });                  
+                });
+                
+
+                </script>
               </tbody>
             </table>
           </div>
@@ -186,6 +227,5 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" preserveAspectRatio="none" style="visibility: hidden; position: absolute; top: -100%; left: -100%;"><defs></defs><text x="0" y="10" style="font-weight:bold;font-size:10pt;font-family:Arial, Helvetica, Open Sans, sans-serif;dominant-baseline:middle">200x200</text></svg></body></html>
