@@ -77,7 +77,7 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
           <h3>Click on the module to add to bid management</h3>
           <div class="table-responsive">
           <div id="table-wrapper">
-            <div id="table-scroll">
+            <div id="table-scroll" >
             <table class="table table-striped table-hover">
             <thead>
             <tr>
@@ -160,7 +160,6 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
           </div>
           </div>
 
-          <button type='submit' class='btn btn-default' id='add-module-btn'>Add selected module</button>          
         </div>
       </div>
     </div>
