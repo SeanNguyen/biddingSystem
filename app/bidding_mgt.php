@@ -5,7 +5,7 @@
   if(!$user->is_logged_in()){ header('Location: index.php'); } 
 ?>
 <!DOCTYPE html>
-<html lang="en"><script type="text/javascript">window["_gaUserPrefs"] = { ioo : function() { return true; } }</script><head>
+<html lang="en"><head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,6 +23,7 @@
     <!-- endbuild -->
     <!-- build:css(.) _/css/bidding_mgt.css -->
     <link rel="stylesheet" href="styles/bidding_mgt.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <!-- endbuild -->
 
@@ -80,15 +81,16 @@
                     <?php
                       //User token
                       $matric = $_SESSION['username'];
-                      $conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+                      /*$conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
                       // Check connection
+                      
                       if (!$conn) {
                           die("Connection failed: " . mysqli_connect_error());
                       }
                       $row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT s.name FROM student s WHERE s.matric = '".$matric."'")); 
-                      $studentName = $row["name"];
-                      echo $matric . "    <b>Name:</b> " . $studentName;
-                      mysqli_close($conn);
+                      $studentName = $row["name"]; */
+                      echo $matric //. "    <b>Name:</b> " . $studentName;
+                      //mysqli_close($conn);
                     ?>
                   </span>
                 </div>
