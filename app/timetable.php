@@ -114,7 +114,7 @@ if(!$user->is_logged_in()){ header('Location: index.php'); }
                               ($startTime1 < $endTime2 && $startTime2 < $endTime1)){
                             $conflictList[$key1] = true;
                             $conflictList[$key2] = true;
-                            echo $row1["module_code"];
+                           // echo $row1["module_code"];
                           }
                        }
                       
