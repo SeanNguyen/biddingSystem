@@ -11,6 +11,7 @@ $('.table-hover tr').click(function() {
 	        dataType: "html",
 	        success: function(data) {
 	            console.log("post success \n" + data);  
+	            alert(data);
 	            location.reload(true);
 	        },
 	        error: function(XMLHttpRequest, textStatus, errorThrown)  {
